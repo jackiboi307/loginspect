@@ -37,7 +37,14 @@ while True:
                     print(f"{BOLD}[{day}]{RESET}")
                 last_day = day
 
-            if ip not in excl_ips and status == "200":
+            excl = False
+            for excluded in excl_ips:
+                if ip == excluded or \
+                        excluded.endswith("*") and ip.startswith(excluded[:-1]):
+                    excl = True
+                    break
+
+            if not excl and status == "200":
                 if ip not in ips:
                     ips[ip] = [1, FG_ID.format(IP_COLORS[color_i])]
                     color_i = (color_i + 1) % len(IP_COLORS)
