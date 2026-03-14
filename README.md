@@ -6,11 +6,11 @@ It is recommended to save your flask output to some file, like `log.txt`, and th
 
 ```
 $ ./loginspect.py --help
-usage: loginspect [-h] [--filter IP] [--min AMOUNT] [--method {GET,POST}]
+usage: loginspect [-h] [--ip IP] [--min AMOUNT] [--method {GET,POST}]
 
 options:
   -h, --help           show this help message and exit
-  --filter IP          filter by ip address
+  --ip IP              filter by ip address
   --min AMOUNT         minimum occurences
   --method {GET,POST}  filter by method
 ```

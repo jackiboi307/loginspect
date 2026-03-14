@@ -28,7 +28,7 @@ with open("config.toml", "rb") as file:
 parser = argparse.ArgumentParser(
     color=False,
     prog='loginspect')
-parser.add_argument("--filter", metavar="IP", help="filter by ip address")
+parser.add_argument("--ip", metavar="IP", help="filter by ip address")
 parser.add_argument("--min", type=int, default=1, metavar="AMOUNT",
     help="minimum occurences")
 parser.add_argument("--method", choices=["GET", "POST"], help="filter by method")
@@ -48,30 +48,28 @@ while True:
                     excl = True
                     break
 
-            if not excl and int(status) in ALLOWED_STATUS and \
-                    (not args.method or method.endswith(args.method)):
-
-                if not args.filter or ip == args.filter:
-                    if day != last_day:
-                        if last_day != "":
-                            print()
-                        print(f"{BOLD}[{day}]{RESET}")
-                    last_day = day
-
+            if not excl and int(status) in ALLOWED_STATUS:
                 if ip not in ips:
                     ips[ip] = [1, FG_ID.format(IP_COLORS[color_i])]
                     color_i = (color_i + 1) % len(IP_COLORS)
                 else:
                     ips[ip][0] += 1
-                
-                if not args.filter or args.filter == ip:
-                    print(f"{ips[ip][1]}{ip:15}{RESET}  {time}  \
+
+                if not args.method or method.endswith(args.method):
+                    if not args.ip or ip == args.ip:
+                        if day != last_day:
+                            if last_day != "":
+                                print()
+                            print(f"{BOLD}[{day}]{RESET}")
+                        last_day = day
+                    
+                        print(f"{ips[ip][1]}{ip:15}{RESET}  {time}  \
 {FG_YELLOW_B}{uri}{RESET}")
 
     except EOFError:
         break
 
-if not args.filter:
+if not args.ip:
     print(f"\n{UNDERLINE}ip address{RESET}       {UNDERLINE}occurences{RESET}")
     for ip, occ_col in sorted(ips.items(), key=lambda x: x[1][0], reverse=True):
         occurences, color = occ_col
