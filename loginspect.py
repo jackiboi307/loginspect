@@ -55,5 +55,6 @@ if not filter_ip:
     print(f"\n{UNDERLINE}ip address{RESET}       {UNDERLINE}occurences{RESET}")
     for ip, occ_col in sorted(ips.items(), key=lambda x: x[1][0], reverse=True):
         occurences, color = occ_col
-        print(f"{color}{ip:15}{RESET}  {occurences}")
+        if 1 < occurences:
+            print(f"{color}{ip:15}{RESET}  {occurences}")
 
